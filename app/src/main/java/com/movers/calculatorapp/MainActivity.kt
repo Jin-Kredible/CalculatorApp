@@ -11,6 +11,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private var tvInput : TextView? = null
+    var lastNumeric : Boolean = false
+    var lastDot : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +24,50 @@ class MainActivity : AppCompatActivity() {
 
     fun onDigit(view : View) {
 
-        tvInput?.append("1")
+        tvInput?.append((view as Button).text)
+        lastNumeric = true
+        lastDot = false
 
     }
+
+    fun onClear(view : View) {
+        tvInput?.setText("")
+        lastNumeric = false
+        lastDot = false
+
+    }
+
+    fun onDecimal(view : View) {
+        if(lastNumeric && !lastDot) {
+            tvInput?.append(".")
+            lastNumeric = false
+            lastDot = true
+        }
+    }
+
+    fun onOperator(view : View) {
+
+        tvInput?.text?.let {
+            if(lastNumeric && !isOperatorAdded(it.toString())) {
+                tvInput?.append((view as Button).text)
+                lastNumeric = false
+                lastDot = false
+            }
+        }
+
+
+    }
+
+    private fun isOperatorAdded(value : String) : Boolean {
+
+        return if(value.startsWith("-")) {
+            false
+        } else {
+            value.contains("/")
+                    || value.contains("*")
+                    || value.contains("+")
+                    || value.contains("-")
+        }
+    }
+
 }
