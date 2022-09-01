@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onDigit(view : View) {
 
-        tvInput.append(view.)
+        tvInput?.append("1")
 
     }
 }
